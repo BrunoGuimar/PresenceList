@@ -1,6 +1,9 @@
 import './style.css'
-
-function Card(props){
+export type CardProps = {
+    name: string,
+    time: string,
+}
+export function Card(props: CardProps){
     return(
         <div className="card">
             <strong>{props.name}</strong>
@@ -8,5 +11,3 @@ function Card(props){
         </div>
     )
 }
-
-export default Card

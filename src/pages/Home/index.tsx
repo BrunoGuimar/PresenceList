@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import './styles.css'
-import Card from '../../componentes/Card'
+import {Card, CardProps} from '../../componentes/Card'
+
+type APIResponse = {
+  name: string,
+  avatar_url: string,
+}
+type User = {
+  name: string,
+  avatar: string,
+}
 
 function home() {
-  
   const [studentName, setStudentName] = useState()
-  const [students, setStudents] = useState([])
-  const [user, setUser] = useState({name:``, avatar:``})
+  const [students, setStudents] = useState<CardProps[]>([])
+  const [user, setUser] = useState<User>({} as User)
   function handleAddStudent(){
     const newStudent = {
       name: studentName,
@@ -21,15 +29,15 @@ function home() {
 
   useEffect(() => {
     //corpo do use effect
-    fetch('https://api.github.com/users/BrunoGuimar')
-    .then(response => response.json())
-    .then(data => {
-      setUser({
-        name: data.name,
-        avatar: data.avatar_url
-      })
-    })
-  },[students])
+   async function fetchData(){
+     const response = await fetch('https://api.github.com/users/BrunoGuimar')
+     const data = await response.json() as APIResponse
+     setUser({
+       name: data.name,
+       avatar: data.avatar_url
+     })
+   }
+  })
   return (
     <div className="container">
       <header>
@@ -55,5 +63,4 @@ function home() {
     </div>
     )
 }
-
 export default home
